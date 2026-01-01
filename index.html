@@ -7,8 +7,6 @@
     
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
@@ -31,7 +29,7 @@
                     animation: {
                         'blob': 'blob 10s infinite',
                         'float': 'float 6s ease-in-out infinite',
-                        'spin-slow': 'spin 15s linear infinite',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
                     },
                     keyframes: {
                         blob: {
@@ -51,6 +49,55 @@
     </script>
     
     <style>
+        /* Loader Styles */
+        #loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #050505;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+        }
+        .loader-hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+        .loader-content {
+            text-align: center;
+        }
+        .loader-bar {
+            width: 0%;
+            height: 2px;
+            background-color: #A6B17E;
+            margin-top: 20px;
+            transition: width 0.3s ease;
+            box-shadow: 0 0 10px rgba(166, 177, 126, 0.5);
+        }
+
+        /* Custom Scroll Animations */
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s ease-out;
+        }
+        .reveal-on-scroll.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Stagger delays */
+        .delay-100 { transition-delay: 100ms; }
+        .delay-200 { transition-delay: 200ms; }
+        .delay-300 { transition-delay: 300ms; }
+        .delay-400 { transition-delay: 400ms; }
+        .delay-500 { transition-delay: 500ms; }
+        .delay-600 { transition-delay: 600ms; }
+
         .glass-card {
             backdrop-filter: blur(16px);
             background: linear-gradient(145deg, rgba(20,20,20,0.6) 0%, rgba(10,10,10,0.8) 100%);
@@ -78,12 +125,18 @@
             position: relative;
             overflow: hidden;
             transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        .btn-primary:disabled {
+            background: #6b7280;
+            cursor: not-allowed;
         }
         .btn-primary::after {
             content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
             background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent); transition: 0.5s;
         }
-        .btn-primary:hover::after { left: 100%; }
+        .btn-primary:hover:not(:disabled)::after { left: 100%; }
         .nav-link { position: relative; }
         .nav-link::after {
             content: ''; position: absolute; width: 0; height: 2px; bottom: -4px; left: 0;
@@ -109,6 +162,19 @@
 </head>
 <body class="bg-dark text-gray-200 font-sans selection:bg-accent selection:text-dark overflow-x-hidden">
 
+    <div id="loader">
+        <div class="loader-content">
+            <div class="flex items-center justify-center font-heading font-extrabold text-4xl tracking-tight mb-4 animate-pulse">
+                <span class="text-white">AYUSHYA</span>
+                <span class="text-accent ml-2">SHAH</span>
+            </div>
+            <p class="text-accent text-sm tracking-[0.3em] uppercase">Loading Experience</p>
+            <div class="w-48 h-0.5 bg-gray-800 mt-4 mx-auto overflow-hidden rounded-full">
+                <div id="loader-progress" class="h-full bg-accent w-0 transition-all duration-300"></div>
+            </div>
+        </div>
+    </div>
+
     <div id="skill-modal" class="hidden-modal fixed inset-0 z-[100] flex items-center justify-center p-4">
         <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="closeModal()"></div>
         
@@ -133,7 +199,7 @@
         </div>
     </div>
 
-    <nav class="fixed w-full z-50 top-0 transition-all duration-300 bg-dark/80 backdrop-blur-xl border-b border-white/5" data-aos="fade-down" data-aos-duration="1000">
+    <nav class="fixed w-full z-50 top-0 transition-all duration-300 bg-dark/80 backdrop-blur-xl border-b border-white/5 reveal-on-scroll active">
         <div class="max-w-7xl mx-auto px-6 md:px-12 py-4 flex justify-between items-center">
             <a href="#" class="flex items-center group">
                 <div class="flex items-baseline font-sans font-extrabold text-2xl tracking-tight">
@@ -171,27 +237,27 @@
         <div class="absolute top-0 -right-4 w-96 h-96 bg-accent-pop/20 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
         
         <div class="max-w-5xl mx-auto text-center z-10 relative">
-            <div data-aos="zoom-out" data-aos-duration="1500">
+            <div class="reveal-on-scroll">
                 <div class="hidden md:inline-block mb-4 px-4 py-1.5 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm text-sm text-accent font-semibold tracking-wide">
                     Web Specialist & Cyber Security Researcher
                 </div>
             </div>
 
-            <div class="mb-8" data-aos="fade-up" data-aos-delay="200">
+            <div class="mb-8 reveal-on-scroll delay-200">
                 <div class="flex flex-col md:flex-row items-center justify-center font-heading font-bold tracking-tighter leading-none whitespace-nowrap">
                     <span class="text-[13vw] md:text-8xl text-white">AYUSHYA</span>
                     <span class="text-[13vw] md:text-8xl text-accent ml-0 md:ml-4">SHAH</span>
                 </div>
-                <p class="text-[4vw] md:text-2xl text-muted mt-6 font-light tracking-wide max-w-full mx-auto whitespace-nowrap" data-aos="fade-up" data-aos-delay="400">
+                <p class="text-[4vw] md:text-2xl text-muted mt-6 font-light tracking-wide max-w-full mx-auto whitespace-nowrap reveal-on-scroll delay-400">
                     A name you <span class="text-white font-semibold">know</span> is a name you <span class="text-white font-semibold">trust</span>
                 </p>
             </div>
             
-            <h1 class="text-3xl md:text-5xl font-bold text-white mb-12 leading-tight font-heading" data-aos="fade-up" data-aos-delay="600">
+            <h1 class="text-3xl md:text-5xl font-bold text-white mb-12 leading-tight font-heading reveal-on-scroll delay-500">
                 What can be made <span class="text-gradient">possible..</span>
             </h1>
             
-            <div class="flex flex-col sm:flex-row justify-center gap-5" data-aos="fade-up" data-aos-delay="800">
+            <div class="flex flex-col sm:flex-row justify-center gap-5 reveal-on-scroll delay-600">
                 <a href="#contact" class="btn-primary px-8 py-4 rounded-full text-lg font-bold shadow-xl shadow-accent/20 hover:scale-105 transform transition-transform flex items-center justify-center gap-2">
                     Let's Talk
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
@@ -206,12 +272,12 @@
 
     <section id="services" class="py-32 px-6 bg-dark-sec relative z-10">
         <div class="max-w-7xl mx-auto">
-            <div class="text-center md:text-left mb-20" data-aos="fade-right">
+            <div class="text-left mb-20 reveal-on-scroll">
                 <h2 class="text-4xl md:text-5xl font-bold font-heading text-white mb-4">What <span class="text-accent">I Do</span></h2>
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div onclick="openModal('designing')" class="glass-card p-8 rounded-3xl group cursor-pointer" data-aos="fade-up" data-aos-delay="100">
+                <div onclick="openModal('designing')" class="glass-card p-8 rounded-3xl group cursor-pointer reveal-on-scroll delay-100">
                     <div class="w-14 h-14 bg-accent/10 text-accent rounded-2xl flex items-center justify-center mb-6 group-hover:bg-accent group-hover:text-dark transition-colors">
                         <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path></svg>
                     </div>
@@ -222,7 +288,7 @@
                     <p class="text-muted text-sm leading-relaxed">UI/UX Designing • Web Designing • UI Redesign</p>
                 </div>
 
-                <div onclick="openModal('security')" class="glass-card p-8 rounded-3xl group cursor-pointer" data-aos="fade-up" data-aos-delay="200">
+                <div onclick="openModal('security')" class="glass-card p-8 rounded-3xl group cursor-pointer reveal-on-scroll delay-200">
                     <div class="w-14 h-14 bg-accent/10 text-accent rounded-2xl flex items-center justify-center mb-6 group-hover:bg-accent group-hover:text-dark transition-colors">
                         <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
                     </div>
@@ -233,7 +299,7 @@
                     <p class="text-muted text-sm leading-relaxed">Web Security • Web Bug Bounty • Pen-testing</p>
                 </div>
 
-                <div onclick="openModal('development')" class="glass-card p-8 rounded-3xl group cursor-pointer" data-aos="fade-up" data-aos-delay="300">
+                <div onclick="openModal('development')" class="glass-card p-8 rounded-3xl group cursor-pointer reveal-on-scroll delay-300">
                     <div class="w-14 h-14 bg-accent/10 text-accent rounded-2xl flex items-center justify-center mb-6 group-hover:bg-accent group-hover:text-dark transition-colors">
                         <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
                     </div>
@@ -244,7 +310,7 @@
                     <p class="text-muted text-sm leading-relaxed">Web • Blockchain • College Projects • Automation</p>
                 </div>
 
-                <div onclick="openModal('learning')" class="glass-card p-8 rounded-3xl group cursor-pointer" data-aos="fade-up" data-aos-delay="400">
+                <div onclick="openModal('learning')" class="glass-card p-8 rounded-3xl group cursor-pointer reveal-on-scroll delay-100">
                     <div class="w-14 h-14 bg-accent/10 text-accent rounded-2xl flex items-center justify-center mb-6 group-hover:bg-accent group-hover:text-dark transition-colors">
                         <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
                     </div>
@@ -255,7 +321,7 @@
                     <p class="text-muted text-sm leading-relaxed">Advisory • Guidance • Tutoring • Note & Video Making</p>
                 </div>
 
-                <div onclick="openModal('marketing')" class="glass-card p-8 rounded-3xl group cursor-pointer" data-aos="fade-up" data-aos-delay="500">
+                <div onclick="openModal('marketing')" class="glass-card p-8 rounded-3xl group cursor-pointer reveal-on-scroll delay-200">
                     <div class="w-14 h-14 bg-accent/10 text-accent rounded-2xl flex items-center justify-center mb-6 group-hover:bg-accent group-hover:text-dark transition-colors">
                         <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
                     </div>
@@ -266,7 +332,7 @@
                     <p class="text-muted text-sm leading-relaxed">Business Development • Growth Strategy</p>
                 </div>
 
-                <div onclick="openModal('content')" class="glass-card p-8 rounded-3xl group cursor-pointer" data-aos="fade-up" data-aos-delay="600">
+                <div onclick="openModal('content')" class="glass-card p-8 rounded-3xl group cursor-pointer reveal-on-scroll delay-300">
                     <div class="w-14 h-14 bg-accent/10 text-accent rounded-2xl flex items-center justify-center mb-6 group-hover:bg-accent group-hover:text-dark transition-colors">
                         <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
                     </div>
@@ -282,15 +348,15 @@
 
     <section id="why-me" class="py-32 px-6 relative overflow-hidden">
         <div class="max-w-5xl mx-auto text-center relative z-10">
-            <h2 class="text-lg font-bold text-accent mb-6 uppercase tracking-[0.3em]" data-aos="fade-down">Why Me</h2>
+            <h2 class="text-lg font-bold text-accent mb-6 uppercase tracking-[0.3em] reveal-on-scroll">Why Me</h2>
             
-            <div data-aos="zoom-in" data-aos-duration="1000">
+            <div class="reveal-on-scroll delay-200">
                 <blockquote class="text-3xl md:text-5xl font-bold text-white font-heading leading-tight mb-12">
-                    “A jack of all trades is a master of none, but oftentimes <span class="text-accent underline decoration-2 underline-offset-4">better</span> than a master of one.”
+                    "A jack of all trades is a master of none, but oftentimes <span class="text-accent underline decoration-2 underline-offset-4">better</span> than a master of one."
                 </blockquote>
             </div>
             
-            <div class="glass-card p-10 md:p-16 rounded-[3rem] text-left relative overflow-hidden" data-aos="fade-up">
+            <div class="glass-card p-10 md:p-16 rounded-[3rem] text-left relative overflow-hidden reveal-on-scroll delay-400">
                 <div class="relative z-10 space-y-6 text-lg md:text-xl text-gray-300 leading-relaxed font-light">
                     <p>
                         With the aim to provide <span class="text-white font-semibold">excellence</span> along with customer satisfaction for an <span class="text-white font-semibold">all-in-one service</span>, you can count upon the name <span class="text-accent font-bold">Ayushya Shah</span>.
@@ -308,11 +374,11 @@
 
     <section id="projects" class="py-32 px-6 bg-dark-sec relative z-10">
         <div class="max-w-7xl mx-auto">
-            <h2 class="text-4xl md:text-5xl font-bold font-heading text-white mb-16" data-aos="fade-right">Selected <span class="text-accent">Works</span></h2>
+            <h2 class="text-4xl md:text-5xl font-bold font-heading text-white mb-16 reveal-on-scroll" >Selected <span class="text-accent">Works</span></h2>
             
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 
-                <div class="group relative rounded-[2rem] overflow-hidden h-96" data-aos="fade-up" data-aos-delay="0">
+                <div class="group relative rounded-[2rem] overflow-hidden h-96 reveal-on-scroll delay-100">
                     <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent z-10"></div>
                     <img src="sarvekshanam.webp" alt="Sarvekshanam" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                     
@@ -323,7 +389,7 @@
                     </div>
                 </div>
 
-                <div class="group relative rounded-[2rem] overflow-hidden h-96" data-aos="fade-up" data-aos-delay="200">
+                <div class="group relative rounded-[2rem] overflow-hidden h-96 reveal-on-scroll delay-300">
                     <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent z-10"></div>
                     <img src="animal-adoption.webp" alt="Animal Adoption" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                     
@@ -334,7 +400,7 @@
                     </div>
                 </div>
 
-                <div class="group relative rounded-[2rem] overflow-hidden h-96" data-aos="fade-up" data-aos-delay="400">
+                <div class="group relative rounded-[2rem] overflow-hidden h-96 reveal-on-scroll delay-500">
                     <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent z-10"></div>
                     <img src="project-haxnation.webp" alt="Project Haxnation" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                     
@@ -350,7 +416,7 @@
 
     <section id="about" class="py-32 px-6 relative overflow-hidden">
         <div class="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-20 relative z-10">
-            <div class="lg:w-1/2 order-2 lg:order-1" data-aos="fade-right">
+            <div class="lg:w-1/2 order-2 lg:order-1 reveal-on-scroll">
                 <h2 class="text-4xl md:text-5xl font-bold font-heading text-white mb-10">Who is <span class="text-accent">Ayushya Shah</span>?</h2>
                 <div class="space-y-6 text-lg text-gray-300 leading-relaxed">
                     <p>
@@ -370,7 +436,7 @@
                 </div>
             </div>
             
-            <div class="lg:w-1/2 order-1 lg:order-2 flex justify-center" data-aos="zoom-in" data-aos-duration="1000">
+            <div class="lg:w-1/2 order-1 lg:order-2 flex justify-center reveal-on-scroll delay-300">
                 <div class="relative w-full max-w-md aspect-square rounded-full border-4 border-white/5 shadow-2xl overflow-hidden group">
                     <img src="me3.webp" alt="Ayushya Shah" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
                 </div>
@@ -379,11 +445,13 @@
     </section>
 
     <section id="contact" class="py-32 px-6 bg-dark-sec/50 relative overflow-hidden">
-        <div class="max-w-4xl mx-auto text-center relative z-10" data-aos="fade-up">
-            <h2 class="text-4xl md:text-6xl font-bold font-heading text-white mb-6">Let's <span class="text-accent">Connect</span></h2>
-            <p class="text-xl text-muted mb-12">Want to stay up-to-date or start a project?</p>
+        <div class="max-w-4xl mx-auto text-center relative z-10" id="contact-container">
+            <div class="reveal-on-scroll">
+                <h2 class="text-4xl md:text-6xl font-bold font-heading text-white mb-6">Let's <span class="text-accent">Connect</span></h2>
+                <p class="text-xl text-muted mb-12">Want to stay up-to-date or start a project?</p>
+            </div>
             
-            <div class="grid grid-cols-2 md:grid-cols-6 gap-4 mb-16">
+            <div class="grid grid-cols-2 md:grid-cols-6 gap-4 mb-16 reveal-on-scroll delay-200">
                 <a href="https://www.linkedin.com/in/ayushya-shah/" class="flex flex-col items-center p-4 glass-card rounded-2xl hover:bg-accent hover:text-dark transition-all duration-300 group">
                     <svg class="w-6 h-6 mb-2" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
                     <span class="text-xs font-bold">LinkedIn</span>
@@ -410,91 +478,220 @@
                 </a>
             </div>
             
-            <form class="max-w-lg mx-auto space-y-6 mb-20 text-left">
+            <form id="contactForm" class="max-w-lg mx-auto space-y-6 mb-20 text-left reveal-on-scroll delay-400">
                 <div class="group relative">
-                    <input type="text" class="w-full bg-transparent border-b border-gray-700 py-3 text-white focus:outline-none focus:border-accent transition-colors peer" placeholder=" ">
+                    <input type="text" id="name" name="name" class="w-full bg-transparent border-b border-gray-700 py-3 text-white focus:outline-none focus:border-accent transition-colors peer" placeholder=" ">
                     <label class="absolute left-0 top-3 text-gray-500 transition-all peer-focus:-top-4 peer-focus:text-xs peer-focus:text-accent peer-placeholder-shown:top-3 peer-placeholder-shown:text-base pointer-events-none">Name</label>
                 </div>
                 <div class="group relative">
-                    <input type="email" class="w-full bg-transparent border-b border-gray-700 py-3 text-white focus:outline-none focus:border-accent transition-colors peer" placeholder=" ">
+                    <input type="email" id="email" name="email" class="w-full bg-transparent border-b border-gray-700 py-3 text-white focus:outline-none focus:border-accent transition-colors peer" placeholder=" ">
                     <label class="absolute left-0 top-3 text-gray-500 transition-all peer-focus:-top-4 peer-focus:text-xs peer-focus:text-accent peer-placeholder-shown:top-3 peer-placeholder-shown:text-base pointer-events-none">Email</label>
                 </div>
                 <div class="group relative">
-                    <textarea rows="3" class="w-full bg-transparent border-b border-gray-700 py-3 text-white focus:outline-none focus:border-accent transition-colors peer" placeholder=" "></textarea>
+                    <input type="text" id="subject" name="subject" class="w-full bg-transparent border-b border-gray-700 py-3 text-white focus:outline-none focus:border-accent transition-colors peer" placeholder=" ">
+                    <label class="absolute left-0 top-3 text-gray-500 transition-all peer-focus:-top-4 peer-focus:text-xs peer-focus:text-accent peer-placeholder-shown:top-3 peer-placeholder-shown:text-base pointer-events-none">Subject</label>
+                </div>
+                <div class="group relative">
+                    <textarea id="message" name="message" rows="3" class="w-full bg-transparent border-b border-gray-700 py-3 text-white focus:outline-none focus:border-accent transition-colors peer" placeholder=" "></textarea>
                     <label class="absolute left-0 top-3 text-gray-500 transition-all peer-focus:-top-4 peer-focus:text-xs peer-focus:text-accent peer-placeholder-shown:top-3 peer-placeholder-shown:text-base pointer-events-none">Message</label>
                 </div>
-                <button type="button" class="btn-primary w-full py-4 rounded-full font-bold text-lg hover:shadow-2xl hover:-translate-y-1 transform transition-all">Send</button>
+                <button type="submit" class="btn-primary w-full py-4 rounded-full font-bold text-lg hover:shadow-2xl hover:-translate-y-1 transform transition-all">Send</button>
             </form>
         </div>
         
         <footer class="mt-20 text-center border-t border-white/5 pt-10">
-            <p class="text-gray-500 text-sm">Made with 🤍 by <span class="text-white font-bold">Ayushya Shah</span></p>
+            <p class="text-gray-500 text-sm">Designed & Developed with 🤍 by <span class="text-white font-bold">Ayushya Shah</span></p>
         </footer>
     </section>
 
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        AOS.init({
-            once: true,
-            offset: 100,
-            duration: 800,
-            easing: 'ease-out-cubic',
+        // --- 1. Loader Logic ---
+        window.addEventListener('load', function() {
+            const loader = document.getElementById('loader');
+            const progress = document.getElementById('loader-progress');
+            
+            // Fill progress bar
+            progress.style.width = '100%';
+            
+            // Fade out loader after short delay
+            setTimeout(() => {
+                loader.classList.add('loader-hidden');
+            }, 500);
+            
+            // Remove loader from DOM to prevent interaction issues
+            loader.addEventListener('transitionend', function() {
+                document.body.removeChild(loader);
+            });
         });
 
-        // Skill Modal Data
+        // --- 2. Replayable Scroll Animations ---
+        // Uses IntersectionObserver to add 'active' class on enter and remove on exit
+        const revealElements = document.querySelectorAll('.reveal-on-scroll');
+        
+        const revealCallback = (entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                } else {
+                    // Remove active class when element leaves viewport to replay animation on return
+                    entry.target.classList.remove('active');
+                }
+            });
+        };
+
+        const revealOptions = {
+            threshold: 0.1, // Trigger when 10% of element is visible
+            rootMargin: "0px 0px -50px 0px"
+        };
+
+        const revealObserver = new IntersectionObserver(revealCallback, revealOptions);
+
+        revealElements.forEach(el => {
+            revealObserver.observe(el);
+        });
+
+        // --- 3. Mobile Menu Toggle Logic (Animated) ---
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            
+            // Toggle Opacity
+            menu.classList.toggle('opacity-0');
+            menu.classList.toggle('opacity-100');
+            
+            // Toggle Slide Effect
+            menu.classList.toggle('-translate-y-4');
+            menu.classList.toggle('translate-y-0');
+            
+            // Toggle Clickability (so you can't click links when it's invisible)
+            menu.classList.toggle('pointer-events-none');
+            menu.classList.toggle('pointer-events-auto');
+        }
+
+        // --- 4. Contact Form Handling (Merged & Updated) ---
+        document.addEventListener('DOMContentLoaded', function () {
+            const contactForm = document.getElementById('contactForm');
+
+            if (contactForm) {
+                contactForm.addEventListener('submit', function (e) {
+                    e.preventDefault();
+
+                    // Get form data
+                    const name = document.getElementById("name").value.trim();
+                    const email = document.getElementById("email").value.trim();
+                    const subject = document.getElementById("subject").value.trim();
+                    const message = document.getElementById("message").value.trim();
+
+                    // Validate all fields are filled
+                    if (!name || !email || !subject || !message) {
+                        alert('Please fill in all fields');
+                        return;
+                    }
+
+                    // Email validation with regex
+                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    if (!emailRegex.test(email)) {
+                        alert('Please enter a valid email address');
+                        return;
+                    }
+
+                    // Get submit button and show loading state
+                    const submitButton = this.querySelector('button[type="submit"]');
+                    const originalText = submitButton.textContent;
+
+                    submitButton.textContent = 'Sending...';
+                    submitButton.disabled = true;
+
+                    // Create FormData for submission
+                    const formData = new FormData(this);
+
+                    // Submit to AWS Lambda endpoint
+                    fetch('https://l5cl23mqncjnwldjv63i7bd4rm0srncu.lambda-url.ap-south-1.on.aws', {
+                        method: 'POST',
+                        body: formData,
+                    })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok');
+                            }
+                            return response.text();
+                        })
+                        .then(data => {
+                            // Show success message
+                            alert(data || 'Thank you for your message! We\'ll get back to you soon.');
+
+                            // Clear form fields
+                            document.getElementById("name").value = '';
+                            document.getElementById("email").value = '';
+                            document.getElementById("subject").value = '';
+                            document.getElementById("message").value = '';
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            alert('Error sending message. Please try again later.');
+                        })
+                        .finally(() => {
+                            // Reset button state
+                            submitButton.textContent = originalText;
+                            submitButton.disabled = false;
+                        });
+                });
+            }
+        });
+
+        // --- 5. Skill Modal Data ---
         const skillData = {
-    designing: {
-        title: "Designing",
-        description: "I combine technical functionality with user-centric design. My experience includes creating dashboard interfaces for the 'Smart Web Vulnerability Dashboard' and designing UI/UX for decentralized authentication systems. I utilize tools like Figma and Canva to ensure accessible and aesthetic digital experiences.",
-        links: [
-            { label: "Smart Dashboard UI", url: "https://github.com/A-Y-U-S-H-Y-A/" },
-            { label: "LinkedIn Profile", url: "https://www.linkedin.com/in/ayushya-shah/" }
-        ]
-    },
-    security: {
-        title: "Cyber Security",
-        description: "My offensive security skills are demonstrated through 'Project Haxnation', where I architect CTF challenges for the community. Professionally, as a Red Team Analyst at DeepCytes and Intern at Trâana Digicorp, I have conducted VAPT on international clients and hold a Certified AppSec Practitioner (CAP) certification.",
-        links: [
-            { label: "Live Proof (Haxnation)", url: "https://github.com/A-Y-U-S-H-Y-A/project-haxnation" },
-            { label: "View Certifications", url: "https://www.linkedin.com/in/ayushya-shah/" }
-        ]
-    },
-    development: {
-        title: "Development",
-        description: "I have designed 3+ scalable full-stack applications using the MERN stack at Maantic Technologies. My technical capability is proven by the development of 'Project Haxnation' (an open-source repository) and blockchain-based authentication systems using Solidity.",
-        links: [
-            { label: "GitHub Profile", url: "https://github.com/A-Y-U-S-H-Y-A/" },
-            { label: "Live Proof (Haxnation)", url: "https://github.com/A-Y-U-S-H-Y-A/project-haxnation" },
-            { label: "Live Projects", url: "#projects" }
-        ]
-    },
-    learning: {
-        title: "Learning & Mentorship",
-        description: "I believe in learning by creating. I built 'Project Haxnation' as a comprehensive resource for security enthusiasts to practice concepts. Additionally, I have served as Tech Secretary for GDSC, conducting workshops on tools like Gemini and teaching foundational computer skills at Accesslife India.",
-        links: [
-            { label: "YouTube Channel", url: "https://www.youtube.com/@tech.with.ayushya" },
-            { label: "Haxnation Repo", url: "https://github.com/A-Y-U-S-H-Y-A/project-haxnation" }
-        ]
-    },
-    marketing: {
-        title: "Marketing & Growth",
-        description: "As the Founder of Haxnation, I executed organic growth strategies that led to a 300% increase in the userbase. My approach combines community engagement with value-driven content, a skill I honed while managing social media for Team Dramatics (200% reach increase).",
-        links: [
-            { label: "Instagram", url: "https://instagram.com/tech.with.ayushya" },
-            { label: "LinkedIn", url: "https://www.linkedin.com/in/ayushya-shah/" },
-            { label: "Growth Strategy", url: "#contact" }
-        ]
-    },
-    content: {
-        title: "Content Creation",
-        description: "My primary content engine is 'Project Haxnation', the largest open-source repository of CTF challenges I am currently building. I also speak at technical conferences (like 'The Hacker's Meetup') and developed tools to automate content production for social media platforms.",
-        links: [
-            { label: "YouTube Videos", url: "https://www.youtube.com/@tech.with.ayushya" },
-            { label: "Instagram", url: "https://instagram.com/tech.with.ayushya" },
-            { label: "Blog", url: "/blog" }
-        ]
-    }
-};
+            designing: {
+                title: "Designing",
+                description: "I combine technical functionality with user-centric design. My experience includes creating dashboard interfaces for the 'Smart Web Vulnerability Dashboard' and designing UI/UX for decentralized authentication systems. I utilize tools like Figma and Canva to ensure accessible and aesthetic digital experiences.",
+                links: [
+                    { label: "Smart Dashboard UI", url: "https://github.com/A-Y-U-S-H-Y-A/" },
+                    { label: "LinkedIn Profile", url: "https://www.linkedin.com/in/ayushya-shah/" }
+                ]
+            },
+            security: {
+                title: "Cyber Security",
+                description: "My offensive security skills are demonstrated through 'Project Haxnation', where I architect CTF challenges for the community. Professionally, as a Red Team Analyst at DeepCytes and Intern at Trâana Digicorp, I have conducted VAPT on international clients and hold a Certified AppSec Practitioner (CAP) certification.",
+                links: [
+                    { label: "Live Proof (Haxnation)", url: "https://github.com/A-Y-U-S-H-Y-A/project-haxnation" },
+                    { label: "View Certifications", url: "https://www.linkedin.com/in/ayushya-shah/" }
+                ]
+            },
+            development: {
+                title: "Development",
+                description: "I have designed 3+ scalable full-stack applications using the MERN stack at Maantic Technologies. My technical capability is proven by the development of 'Project Haxnation' (an open-source repository) and blockchain-based authentication systems using Solidity.",
+                links: [
+                    { label: "GitHub Profile", url: "https://github.com/A-Y-U-S-H-Y-A/" },
+                    { label: "Live Proof (Haxnation)", url: "https://github.com/A-Y-U-S-H-Y-A/project-haxnation" },
+                    { label: "Live Projects", url: "#projects" }
+                ]
+            },
+            learning: {
+                title: "Learning & Mentorship",
+                description: "I believe in learning by creating. I built 'Project Haxnation' as a comprehensive resource for security enthusiasts to practice concepts. Additionally, I have served as Tech Secretary for GDSC, conducting workshops on tools like Gemini and teaching foundational computer skills at Accesslife India.",
+                links: [
+                    { label: "YouTube Channel", url: "https://www.youtube.com/@tech.with.ayushya" },
+                    { label: "Haxnation Repo", url: "https://github.com/A-Y-U-S-H-Y-A/project-haxnation" }
+                ]
+            },
+            marketing: {
+                title: "Marketing & Growth",
+                description: "As the Founder of Haxnation, I executed organic growth strategies that led to a 300% increase in the userbase. My approach combines community engagement with value-driven content, a skill I honed while managing social media for Team Dramatics (200% reach increase).",
+                links: [
+                    { label: "Instagram", url: "https://instagram.com/tech.with.ayushya" },
+                    { label: "LinkedIn", url: "https://www.linkedin.com/in/ayushya-shah/" },
+                    { label: "Growth Strategy", url: "#contact" }
+                ]
+            },
+            content: {
+                title: "Content Creation",
+                description: "My primary content engine is 'Project Haxnation', the largest open-source repository of CTF challenges I am currently building. I also speak at technical conferences (like 'The Hacker's Meetup') and developed tools to automate content production for social media platforms.",
+                links: [
+                    { label: "YouTube Videos", url: "https://www.youtube.com/@tech.with.ayushya" },
+                    { label: "Instagram", url: "https://instagram.com/tech.with.ayushya" },
+                    { label: "Blog", url: "/blog" }
+                ]
+            }
+        };
 
         const modal = document.getElementById('skill-modal');
         const modalTitle = document.getElementById('modal-title');
@@ -533,23 +730,6 @@
             modal.classList.remove('visible-modal');
             modal.classList.add('hidden-modal');
             document.body.style.overflow = 'auto';
-        }
-
-        // Mobile Menu Toggle Logic (Animated)
-        function toggleMobileMenu() {
-            const menu = document.getElementById('mobile-menu');
-            
-            // Toggle Opacity
-            menu.classList.toggle('opacity-0');
-            menu.classList.toggle('opacity-100');
-            
-            // Toggle Slide Effect
-            menu.classList.toggle('-translate-y-4');
-            menu.classList.toggle('translate-y-0');
-            
-            // Toggle Clickability (so you can't click links when it's invisible)
-            menu.classList.toggle('pointer-events-none');
-            menu.classList.toggle('pointer-events-auto');
         }
 
         // Close on Escape key
