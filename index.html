@@ -90,9 +90,48 @@
             background-color: #A6B17E; transition: width 0.3s ease;
         }
         .nav-link:hover::after { width: 100%; }
+
+        /* Modal specific styles */
+        #skill-modal {
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        #skill-modal.hidden-modal {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+        #skill-modal.visible-modal {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
     </style>
 </head>
 <body class="bg-dark text-gray-200 font-sans selection:bg-accent selection:text-dark overflow-x-hidden">
+
+    <div id="skill-modal" class="hidden-modal fixed inset-0 z-[100] flex items-center justify-center p-4">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="closeModal()"></div>
+        
+        <div class="glass-card w-full max-w-2xl max-h-[80vh] overflow-y-auto relative z-10 rounded-3xl p-8 md:p-12 border border-white/10 shadow-2xl shadow-accent/10 transform transition-all duration-300 scale-100">
+            <button onclick="closeModal()" class="absolute top-6 right-6 text-gray-400 hover:text-white hover:rotate-90 transition-all">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            
+            <h3 id="modal-title" class="text-3xl font-bold font-heading text-white mb-2">Title</h3>
+            <div class="w-16 h-1 bg-accent rounded-full mb-6"></div>
+            
+            <div class="space-y-6">
+                <div id="modal-description" class="text-gray-300 leading-relaxed">
+                    </div>
+                
+                <div class="pt-4 border-t border-white/5">
+                    <h4 class="text-sm font-bold text-accent uppercase tracking-wider mb-4">Proofs & Links</h4>
+                    <div id="modal-links" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <nav class="fixed w-full z-50 top-0 transition-all duration-300 bg-dark/80 backdrop-blur-xl border-b border-white/5" data-aos="fade-down" data-aos-duration="1000">
         <div class="max-w-7xl mx-auto px-6 md:px-12 py-4 flex justify-between items-center">
@@ -123,17 +162,17 @@
         
         <div class="max-w-5xl mx-auto text-center z-10 relative">
             <div data-aos="zoom-out" data-aos-duration="1500">
-                <div class="inline-block mb-4 px-4 py-1.5 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm text-sm text-accent font-semibold tracking-wide">
+                <div class="hidden md:inline-block mb-4 px-4 py-1.5 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm text-sm text-accent font-semibold tracking-wide">
                     Web Specialist & Cyber Security Researcher
                 </div>
             </div>
 
             <div class="mb-8" data-aos="fade-up" data-aos-delay="200">
-                <div class="flex flex-col md:flex-row items-center justify-center font-heading font-bold text-6xl md:text-8xl tracking-tighter leading-none">
-                    <span class="text-white">AYUSHYA</span>
-                    <span class="text-accent ml-0 md:ml-4">SHAH</span>
+                <div class="flex flex-col md:flex-row items-center justify-center font-heading font-bold tracking-tighter leading-none whitespace-nowrap">
+                    <span class="text-[13vw] md:text-8xl text-white">AYUSHYA</span>
+                    <span class="text-[13vw] md:text-8xl text-accent ml-0 md:ml-4">SHAH</span>
                 </div>
-                <p class="text-xl md:text-2xl text-muted mt-6 font-light tracking-wide max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="400">
+                <p class="text-[3.2vw] md:text-2xl text-muted mt-6 font-light tracking-wide max-w-full mx-auto whitespace-nowrap" data-aos="fade-up" data-aos-delay="400">
                     A name you <span class="text-white font-semibold">know</span> is a name you <span class="text-white font-semibold">trust</span>
                 </p>
             </div>
@@ -157,57 +196,74 @@
 
     <section id="services" class="py-32 px-6 bg-dark-sec relative z-10">
         <div class="max-w-7xl mx-auto">
-            <div class="text-center md:text-left mb-20" data-aos="fade-right">
-                <h2 class="text-4xl md:text-5xl font-bold font-heading text-white mb-4">What <span class="text-accent">I Do.</span></h2>
-                <div class="w-24 h-1.5 bg-accent rounded-full md:mx-0 mx-auto"></div>
+            <div class="text-left mb-20" data-aos="fade-right">
+                <h2 class="text-4xl md:text-5xl font-bold font-heading text-white mb-4">What <span class="text-accent">I Do</span></h2>
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="glass-card p-8 rounded-3xl group" data-aos="fade-up" data-aos-delay="100">
+                <div onclick="openModal('designing')" class="glass-card p-8 rounded-3xl group cursor-pointer" data-aos="fade-up" data-aos-delay="100">
                     <div class="w-14 h-14 bg-accent/10 text-accent rounded-2xl flex items-center justify-center mb-6 group-hover:bg-accent group-hover:text-dark transition-colors">
                         <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path></svg>
                     </div>
-                    <h3 class="text-2xl font-bold text-white mb-3">Designing</h3>
+                    <div class="flex justify-between items-start">
+                        <h3 class="text-2xl font-bold text-white mb-3">Designing</h3>
+                        <svg class="w-5 h-5 text-gray-500 group-hover:text-accent transform group-hover:translate-x-1 group-hover:-translate-y-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                    </div>
                     <p class="text-muted text-sm leading-relaxed">UI/UX Designing • Web Designing • UI Redesign</p>
                 </div>
 
-                <div class="glass-card p-8 rounded-3xl group" data-aos="fade-up" data-aos-delay="200">
+                <div onclick="openModal('security')" class="glass-card p-8 rounded-3xl group cursor-pointer" data-aos="fade-up" data-aos-delay="200">
                     <div class="w-14 h-14 bg-accent/10 text-accent rounded-2xl flex items-center justify-center mb-6 group-hover:bg-accent group-hover:text-dark transition-colors">
                         <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
                     </div>
-                    <h3 class="text-2xl font-bold text-white mb-3">Cyber Security</h3>
+                    <div class="flex justify-between items-start">
+                        <h3 class="text-2xl font-bold text-white mb-3">Cyber Security</h3>
+                        <svg class="w-5 h-5 text-gray-500 group-hover:text-accent transform group-hover:translate-x-1 group-hover:-translate-y-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                    </div>
                     <p class="text-muted text-sm leading-relaxed">Web Security • Web Bug Bounty • Pen-testing</p>
                 </div>
 
-                <div class="glass-card p-8 rounded-3xl group" data-aos="fade-up" data-aos-delay="300">
+                <div onclick="openModal('development')" class="glass-card p-8 rounded-3xl group cursor-pointer" data-aos="fade-up" data-aos-delay="300">
                     <div class="w-14 h-14 bg-accent/10 text-accent rounded-2xl flex items-center justify-center mb-6 group-hover:bg-accent group-hover:text-dark transition-colors">
                         <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
                     </div>
-                    <h3 class="text-2xl font-bold text-white mb-3">Development</h3>
+                    <div class="flex justify-between items-start">
+                        <h3 class="text-2xl font-bold text-white mb-3">Development</h3>
+                        <svg class="w-5 h-5 text-gray-500 group-hover:text-accent transform group-hover:translate-x-1 group-hover:-translate-y-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                    </div>
                     <p class="text-muted text-sm leading-relaxed">Web • Blockchain • College Projects • Automation</p>
                 </div>
 
-                <div class="glass-card p-8 rounded-3xl group" data-aos="fade-up" data-aos-delay="400">
+                <div onclick="openModal('learning')" class="glass-card p-8 rounded-3xl group cursor-pointer" data-aos="fade-up" data-aos-delay="400">
                     <div class="w-14 h-14 bg-accent/10 text-accent rounded-2xl flex items-center justify-center mb-6 group-hover:bg-accent group-hover:text-dark transition-colors">
                         <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
                     </div>
-                    <h3 class="text-2xl font-bold text-white mb-3">Learning</h3>
+                    <div class="flex justify-between items-start">
+                        <h3 class="text-2xl font-bold text-white mb-3">Learning</h3>
+                        <svg class="w-5 h-5 text-gray-500 group-hover:text-accent transform group-hover:translate-x-1 group-hover:-translate-y-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                    </div>
                     <p class="text-muted text-sm leading-relaxed">Advisory • Guidance • Tutoring • Note & Video Making</p>
                 </div>
 
-                <div class="glass-card p-8 rounded-3xl group" data-aos="fade-up" data-aos-delay="500">
+                <div onclick="openModal('marketing')" class="glass-card p-8 rounded-3xl group cursor-pointer" data-aos="fade-up" data-aos-delay="500">
                     <div class="w-14 h-14 bg-accent/10 text-accent rounded-2xl flex items-center justify-center mb-6 group-hover:bg-accent group-hover:text-dark transition-colors">
                         <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
                     </div>
-                    <h3 class="text-2xl font-bold text-white mb-3">Marketing</h3>
+                    <div class="flex justify-between items-start">
+                        <h3 class="text-2xl font-bold text-white mb-3">Marketing</h3>
+                        <svg class="w-5 h-5 text-gray-500 group-hover:text-accent transform group-hover:translate-x-1 group-hover:-translate-y-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                    </div>
                     <p class="text-muted text-sm leading-relaxed">Business Development • Growth Strategy</p>
                 </div>
 
-                <div class="glass-card p-8 rounded-3xl group" data-aos="fade-up" data-aos-delay="600">
+                <div onclick="openModal('content')" class="glass-card p-8 rounded-3xl group cursor-pointer" data-aos="fade-up" data-aos-delay="600">
                     <div class="w-14 h-14 bg-accent/10 text-accent rounded-2xl flex items-center justify-center mb-6 group-hover:bg-accent group-hover:text-dark transition-colors">
                         <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
                     </div>
-                    <h3 class="text-2xl font-bold text-white mb-3">Content</h3>
+                    <div class="flex justify-between items-start">
+                        <h3 class="text-2xl font-bold text-white mb-3">Content</h3>
+                        <svg class="w-5 h-5 text-gray-500 group-hover:text-accent transform group-hover:translate-x-1 group-hover:-translate-y-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                    </div>
                     <p class="text-muted text-sm leading-relaxed">Copywriting • Content Creation • Content Structuring</p>
                 </div>
             </div>
@@ -216,7 +272,7 @@
 
     <section id="why-me" class="py-32 px-6 relative overflow-hidden">
         <div class="max-w-5xl mx-auto text-center relative z-10">
-            <h2 class="text-lg font-bold text-accent mb-6 uppercase tracking-[0.3em]" data-aos="fade-down">Why Me?</h2>
+            <h2 class="text-lg font-bold text-accent mb-6 uppercase tracking-[0.3em]" data-aos="fade-down">Why Me</h2>
             
             <div data-aos="zoom-in" data-aos-duration="1000">
                 <blockquote class="text-3xl md:text-5xl font-bold text-white font-heading leading-tight mb-12">
@@ -227,7 +283,7 @@
             <div class="glass-card p-10 md:p-16 rounded-[3rem] text-left relative overflow-hidden" data-aos="fade-up">
                 <div class="relative z-10 space-y-6 text-lg md:text-xl text-gray-300 leading-relaxed font-light">
                     <p>
-                        With the aim to provide <span class="text-accent font-semibold">excellence</span> along with customer satisfaction for an <span class="text-white font-semibold">all-in-one service</span>, you can count upon the name <span class="text-accent font-bold">Ayushya Shah</span>.
+                        With the aim to provide <span class="text-white font-semibold">excellence</span> along with customer satisfaction for an <span class="text-white font-semibold">all-in-one service</span>, you can count upon the name <span class="text-accent font-bold">Ayushya Shah</span>.
                     </p>
                     <p>
                         From something as <span class="text-white font-semibold">small</span> as learning a new concept to something <span class="text-white font-semibold">large</span> like marketing your dream application, one name will be by your side.
@@ -242,13 +298,13 @@
 
     <section id="projects" class="py-32 px-6 bg-dark-sec relative z-10">
         <div class="max-w-7xl mx-auto">
-            <h2 class="text-4xl md:text-5xl font-bold font-heading text-white mb-16" data-aos="fade-right">Selected <span class="text-accent">Works.</span></h2>
+            <h2 class="text-4xl md:text-5xl font-bold font-heading text-white mb-16" data-aos="fade-right">Selected <span class="text-accent">Works</span></h2>
             
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 
                 <div class="group relative rounded-[2rem] overflow-hidden h-96" data-aos="fade-up" data-aos-delay="0">
                     <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent z-10"></div>
-                    <img src="sarvekshanam.png" alt="Sarvekshanam" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                    <img src="sarvekshanam.webp" alt="Sarvekshanam" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                     
                     <div class="absolute bottom-0 left-0 p-8 z-20 w-full transform group-hover:translate-y-[-10px] transition-transform duration-500">
                         <span class="text-accent text-xs font-bold uppercase tracking-wider border border-accent/30 px-3 py-1 rounded-full mb-3 inline-block">AI + Security</span>
@@ -259,10 +315,10 @@
 
                 <div class="group relative rounded-[2rem] overflow-hidden h-96" data-aos="fade-up" data-aos-delay="200">
                     <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent z-10"></div>
-                    <img src="animal-adoption.png" alt="Animal Adoption" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                    <img src="animal-adoption.webp" alt="Animal Adoption" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                     
                     <div class="absolute bottom-0 left-0 p-8 z-20 w-full transform group-hover:translate-y-[-10px] transition-transform duration-500">
-                         <span class="text-accent-pop text-xs font-bold uppercase tracking-wider border border-accent-pop/30 px-3 py-1 rounded-full mb-3 inline-block">App Development</span>
+                        <span class="text-accent text-xs font-bold uppercase tracking-wider border border-accent/30 px-3 py-1 rounded-full mb-3 inline-block">Web Development</span>
                         <h3 class="text-3xl font-bold text-white mb-2">Animal Adoption</h3>
                         <p class="text-gray-300 text-sm">Supporting the slogan - Adopt don't shop. Making adoption easier.</p>
                     </div>
@@ -270,10 +326,10 @@
 
                 <div class="group relative rounded-[2rem] overflow-hidden h-96" data-aos="fade-up" data-aos-delay="400">
                     <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent z-10"></div>
-                    <img src="project-haxnation.png" alt="Project Haxnation" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                    <img src="project-haxnation.webp" alt="Project Haxnation" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                     
                     <div class="absolute bottom-0 left-0 p-8 z-20 w-full transform group-hover:translate-y-[-10px] transition-transform duration-500">
-                        <span class="text-pink-500 text-xs font-bold uppercase tracking-wider border border-pink-500/30 px-3 py-1 rounded-full mb-3 inline-block">Cyber Security</span>
+                        <span class="text-accent text-xs font-bold uppercase tracking-wider border border-accent/30 px-3 py-1 rounded-full mb-3 inline-block">Cyber Security</span>
                         <h3 class="text-3xl font-bold text-white mb-2">Project Haxnation</h3>
                         <p class="text-gray-300 text-sm">A dream to create the largest open source repository of CTF challenges.</p>
                     </div>
@@ -306,7 +362,7 @@
             
             <div class="lg:w-1/2 order-1 lg:order-2 flex justify-center" data-aos="zoom-in" data-aos-duration="1000">
                 <div class="relative w-full max-w-md aspect-square rounded-full border-4 border-white/5 shadow-2xl overflow-hidden group">
-                    <img src="me3.png" alt="Ayushya Shah" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                    <img src="me3.webp" alt="Ayushya Shah" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
                 </div>
             </div>
         </div>
@@ -314,7 +370,7 @@
 
     <section id="contact" class="py-32 px-6 bg-dark-sec/50 relative overflow-hidden">
         <div class="max-w-4xl mx-auto text-center relative z-10" data-aos="fade-up">
-            <h2 class="text-4xl md:text-6xl font-bold font-heading text-white mb-6">Let's <span class="text-accent">Connect.</span></h2>
+            <h2 class="text-4xl md:text-6xl font-bold font-heading text-white mb-6">Let's <span class="text-accent">Connect</span></h2>
             <p class="text-xl text-muted mb-12">Want to stay up-to-date or start a project?</p>
             
             <div class="grid grid-cols-2 md:grid-cols-6 gap-4 mb-16">
@@ -373,6 +429,107 @@
             offset: 100,
             duration: 800,
             easing: 'ease-out-cubic',
+        });
+
+        // Skill Modal Data
+        const skillData = {
+    designing: {
+        title: "Designing",
+        description: "I combine technical functionality with user-centric design. My experience includes creating dashboard interfaces for the 'Smart Web Vulnerability Dashboard' and designing UI/UX for decentralized authentication systems. I utilize tools like Figma and Canva to ensure accessible and aesthetic digital experiences.",
+        links: [
+            { label: "Smart Dashboard UI", url: "https://github.com/A-Y-U-S-H-Y-A/" },
+            { label: "LinkedIn Profile", url: "https://www.linkedin.com/in/ayushya-shah/" }
+        ]
+    },
+    security: {
+        title: "Cyber Security",
+        description: "My offensive security skills are demonstrated through 'Project Haxnation', where I architect CTF challenges for the community. Professionally, as a Red Team Analyst at DeepCytes and Intern at Trâana Digicorp, I have conducted VAPT on international clients and hold a Certified AppSec Practitioner (CAP) certification.",
+        links: [
+            { label: "Live Proof (Haxnation)", url: "https://github.com/A-Y-U-S-H-Y-A/project-haxnation" },
+            { label: "View Certifications", url: "https://www.linkedin.com/in/ayushya-shah/" }
+        ]
+    },
+    development: {
+        title: "Development",
+        description: "I have designed 3+ scalable full-stack applications using the MERN stack at Maantic Technologies. My technical capability is proven by the development of 'Project Haxnation' (an open-source repository) and blockchain-based authentication systems using Solidity.",
+        links: [
+            { label: "GitHub Profile", url: "https://github.com/A-Y-U-S-H-Y-A/" },
+            { label: "Live Proof (Haxnation)", url: "https://github.com/A-Y-U-S-H-Y-A/project-haxnation" },
+            { label: "Live Projects", url: "#projects" }
+        ]
+    },
+    learning: {
+        title: "Learning & Mentorship",
+        description: "I believe in learning by creating. I built 'Project Haxnation' as a comprehensive resource for security enthusiasts to practice concepts. Additionally, I have served as Tech Secretary for GDSC, conducting workshops on tools like Gemini and teaching foundational computer skills at Accesslife India.",
+        links: [
+            { label: "YouTube Channel", url: "https://www.youtube.com/@tech.with.ayushya" },
+            { label: "Haxnation Repo", url: "https://github.com/A-Y-U-S-H-Y-A/project-haxnation" }
+        ]
+    },
+    marketing: {
+        title: "Marketing & Growth",
+        description: "As the Founder of Haxnation, I executed organic growth strategies that led to a 300% increase in the userbase. My approach combines community engagement with value-driven content, a skill I honed while managing social media for Team Dramatics (200% reach increase).",
+        links: [
+            { label: "Instagram", url: "https://instagram.com/tech.with.ayushya" },
+            { label: "LinkedIn", url: "https://www.linkedin.com/in/ayushya-shah/" },
+            { label: "Growth Strategy", url: "#contact" }
+        ]
+    },
+    content: {
+        title: "Content Creation",
+        description: "My primary content engine is 'Project Haxnation', the largest open-source repository of CTF challenges I am currently building. I also speak at technical conferences (like 'The Hacker's Meetup') and developed tools to automate content production for social media platforms.",
+        links: [
+            { label: "YouTube Videos", url: "https://www.youtube.com/@tech.with.ayushya" },
+            { label: "Instagram", url: "https://instagram.com/tech.with.ayushya" },
+            { label: "Blog", url: "/blog" }
+        ]
+    }
+};
+
+        const modal = document.getElementById('skill-modal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalDesc = document.getElementById('modal-description');
+        const modalLinks = document.getElementById('modal-links');
+
+        function openModal(category) {
+            const data = skillData[category];
+            if (!data) return;
+
+            modalTitle.textContent = data.title;
+            modalDesc.textContent = data.description;
+            
+            // Clear existing links
+            modalLinks.innerHTML = '';
+            
+            // Add new links
+            data.links.forEach(link => {
+                const a = document.createElement('a');
+                a.href = link.url;
+                a.target = "_blank"; // Open in new tab
+                a.className = "flex items-center p-3 rounded-xl bg-white/5 hover:bg-accent/20 border border-white/5 hover:border-accent/50 transition-all group";
+                a.innerHTML = `
+                    <span class="text-sm font-medium text-white group-hover:text-accent truncate">${link.label}</span>
+                    <svg class="w-4 h-4 ml-auto text-gray-500 group-hover:text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                `;
+                modalLinks.appendChild(a);
+            });
+
+            modal.classList.remove('hidden-modal');
+            modal.classList.add('visible-modal');
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        }
+
+        function closeModal() {
+            modal.classList.remove('visible-modal');
+            modal.classList.add('hidden-modal');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close on Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === "Escape") {
+                closeModal();
+            }
         });
     </script>
 </body>
