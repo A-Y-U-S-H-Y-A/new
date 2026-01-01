@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ayushya Shah | Digital Alchemist</title>
+    <title>Ayushya Shah</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     
@@ -150,9 +150,19 @@
                 <a href="#contact" class="btn-primary px-6 py-2.5 rounded-full font-bold shadow-lg shadow-accent/10 hover:shadow-accent/30 hover:scale-105 transform">Let's Connect</a>
             </div>
             
-            <button class="md:hidden text-white">
+            <button id="mobile-menu-btn" onclick="toggleMobileMenu()" class="md:hidden text-white p-2 focus:outline-none hover:text-accent transition-colors">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
             </button>
+        </div>
+
+        <div id="mobile-menu" class="md:hidden absolute top-full left-0 w-full bg-dark/95 backdrop-blur-xl border-b border-white/5 shadow-2xl transition-all duration-300 ease-in-out opacity-0 -translate-y-4 pointer-events-none">
+            <div class="flex flex-col p-6 space-y-4 font-medium text-center">
+                <a href="#services" onclick="toggleMobileMenu()" class="text-gray-300 hover:text-accent py-2 transition-colors">Services</a>
+                <a href="#why-me" onclick="toggleMobileMenu()" class="text-gray-300 hover:text-accent py-2 transition-colors">Why Me?</a>
+                <a href="#projects" onclick="toggleMobileMenu()" class="text-gray-300 hover:text-accent py-2 transition-colors">Projects</a>
+                <a href="#about" onclick="toggleMobileMenu()" class="text-gray-300 hover:text-accent py-2 transition-colors">About</a>
+                <a href="#contact" onclick="toggleMobileMenu()" class="btn-primary py-3 rounded-xl font-bold text-dark">Let's Connect</a>
+            </div>
         </div>
     </nav>
 
@@ -172,7 +182,7 @@
                     <span class="text-[13vw] md:text-8xl text-white">AYUSHYA</span>
                     <span class="text-[13vw] md:text-8xl text-accent ml-0 md:ml-4">SHAH</span>
                 </div>
-                <p class="text-[3.2vw] md:text-2xl text-muted mt-6 font-light tracking-wide max-w-full mx-auto whitespace-nowrap" data-aos="fade-up" data-aos-delay="400">
+                <p class="text-[4vw] md:text-2xl text-muted mt-6 font-light tracking-wide max-w-full mx-auto whitespace-nowrap" data-aos="fade-up" data-aos-delay="400">
                     A name you <span class="text-white font-semibold">know</span> is a name you <span class="text-white font-semibold">trust</span>
                 </p>
             </div>
@@ -196,7 +206,7 @@
 
     <section id="services" class="py-32 px-6 bg-dark-sec relative z-10">
         <div class="max-w-7xl mx-auto">
-            <div class="text-left mb-20" data-aos="fade-right">
+            <div class="text-center md:text-left mb-20" data-aos="fade-right">
                 <h2 class="text-4xl md:text-5xl font-bold font-heading text-white mb-4">What <span class="text-accent">I Do</span></h2>
             </div>
             
@@ -276,7 +286,7 @@
             
             <div data-aos="zoom-in" data-aos-duration="1000">
                 <blockquote class="text-3xl md:text-5xl font-bold text-white font-heading leading-tight mb-12">
-                    "A jack of all trades is a master of none, but oftentimes <span class="text-accent underline decoration-2 underline-offset-4">better</span> than a master of one."
+                    “A jack of all trades is a master of none, but oftentimes <span class="text-accent underline decoration-2 underline-offset-4">better</span> than a master of one.”
                 </blockquote>
             </div>
             
@@ -418,7 +428,7 @@
         </div>
         
         <footer class="mt-20 text-center border-t border-white/5 pt-10">
-            <p class="text-gray-500 text-sm">Designed & Developed with 🤍 by <span class="text-white font-bold">Ayushya Shah</span></p>
+            <p class="text-gray-500 text-sm">Made with 🤍 by <span class="text-white font-bold">Ayushya Shah</span></p>
         </footer>
     </section>
 
@@ -523,6 +533,23 @@
             modal.classList.remove('visible-modal');
             modal.classList.add('hidden-modal');
             document.body.style.overflow = 'auto';
+        }
+
+        // Mobile Menu Toggle Logic (Animated)
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            
+            // Toggle Opacity
+            menu.classList.toggle('opacity-0');
+            menu.classList.toggle('opacity-100');
+            
+            // Toggle Slide Effect
+            menu.classList.toggle('-translate-y-4');
+            menu.classList.toggle('translate-y-0');
+            
+            // Toggle Clickability (so you can't click links when it's invisible)
+            menu.classList.toggle('pointer-events-none');
+            menu.classList.toggle('pointer-events-auto');
         }
 
         // Close on Escape key
